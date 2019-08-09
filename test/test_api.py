@@ -9,7 +9,7 @@ def simple_greengen(n):
 
 
 def middle_func(x, y):
-    for num in xrange(x, y):
+    for num in range(x, y):
         yielding_func(num)
 
 
@@ -26,7 +26,7 @@ def while_true_greengen():
 
 @greengen.greengen
 def nested_greengen():
-    for n in xrange(3):
+    for n in range(3):
         greengen.yield_('results for {}:'.format(n))
         for res in simple_greengen(n):
             greengen.yield_(res)

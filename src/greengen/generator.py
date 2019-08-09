@@ -37,4 +37,4 @@ class GreenletGenerator(object):
         return self
 
     def __repr__(self):
-        return '<Greengen of {}>'.format(self.func)
+        return '<GreenletGenerator of {}>'.format(self.func)
