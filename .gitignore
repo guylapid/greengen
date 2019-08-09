@@ -105,3 +105,6 @@ venv.bak/
 
 # Pycharm stuff
 .idea/
+
+# misc.
+test/*.bat

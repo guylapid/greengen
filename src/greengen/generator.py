@@ -11,14 +11,16 @@ class GreenletGenerator(object):
         self.args = args
         self.kwargs = kwargs
         self._next_result = None
-        self._func_greenlet = greenlet(func)  # Stays the same greenlet
-        self._consume_greenlet = None  # Changes on each call to `next`
+        self._func_greenlet = None  # Will stay the same greenlet
+        self._consume_greenlet = None  # Will change on each call to `next`
 
     def yield_(self, item):
         self._next_result = _Result(item)
         self._consume_greenlet.switch()
 
     def _consume_next_result(self):
+        if self._func_greenlet is None:
+            self._func_greenlet = greenlet(self.func)
         self._func_greenlet.switch(*self.args, **self.kwargs)
         result = self._next_result
         self._next_result = None
@@ -38,3 +40,7 @@ class GreenletGenerator(object):
 
     def __repr__(self):
         return '<GreenletGenerator of {}>'.format(self.func)
+
+    def __del__(self):
+        self._consume_greenlet = None
+        self._func_greenlet = None
