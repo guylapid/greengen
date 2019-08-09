@@ -1,7 +1,6 @@
-# ${1:Greengen}
-Greengen is a python package that allow implementing generators without yielding items all the way up.
+# Greengen
+Greengen is a python package that allows implementing generators without yielding items all the way up.
 Instead, any inner function called from a greengen generator, can yield items directly to the outer generator.
-See [Usage](#usage)
 ## Installation
 ```
 pip install greengen
@@ -9,7 +8,7 @@ pip install greengen
 ## Usage
 For example, suppose we want to implement a function that performs some heavy business logic, and generates logs.
 We want to handle the logs the moment they are created.
-But our functions has to call a deep stack of helper functions, which in their turn call more functions,
+But our function has to call a deep stack of helper functions, which in their turn call more functions,
 and logs may be written anywhere inside any function.
 The implementation with regular generators will be utterly annoying:
 ```python
@@ -55,7 +54,7 @@ def main():
         # Consume the logs however we want
         print('{}: {}'.format(l['timestamp'], l['message']))
 ```
-Using Greengen, this example can be changed into the following:
+Using Greengen, this example can be simplified into the following:
 ```python
 import time
 import greengen
@@ -87,7 +86,7 @@ def _inner_helper_function(some_input):
 
 
 def log(stuff):
-    # This is the only place in the entire code where we use "yield".
+    # This is the only place in the entire code where we need to be aware of the fact that we are inside a generator.
     # This will directly yield the log as the next item in the outer generator ("do_business_logic_and_yield_logs")
     greengen.yield_({'message': str(stuff), 'timestamp': time.time()})
 
